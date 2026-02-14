@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¿Quieres ser mi San Valentín?</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@400;600;700&display=swap"
+        rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        valentine: {
+                            50: '#fff0f3',
+                            100: '#ffccd5',
+                            200: '#ffb3c1',
+                            300: '#ff8fa3',
+                            400: '#ff758f',
+                            500: '#ff4d6d',
+                            600: '#c9184a',
+                            700: '#a4133c',
+                            800: '#800f2f',
+                            900: '#590d22',
+                        }
+                    },
+                    fontFamily: {
+                        'script': ['"Great Vibes"', 'cursive'],
+                        'body': ['"Montserrat"', 'sans-serif'],
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom floating hearts since Tailwind can't do random positions easily */
+        .background-hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .heart {
+            position: absolute;
+            bottom: -10vh;
+            background-color: #ffb3c1;
+            display: inline-block;
+            height: 30px;
+            width: 30px;
+            margin: 0 10px;
+            border-radius: 50%;
+            animation: floatUp linear infinite;
+            opacity: 0.4;
+        }
+
+        .heart:before,
+        .heart:after {
+            content: "";
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background-color: inherit;
+        }
+
+        .heart:before {
+            transform: translateX(-50%);
+        }
+
+        .heart:after {
+            transform: translateY(-50%);
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) rotate(45deg) scale(0.8);
+                opacity: 0;
+            }
+
+            20% {
+                opacity: 0.6;
+            }
+
+            100% {
+                transform: translateY(-120vh) rotate(45deg) scale(1.2);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+
+<body
+    class="bg-gradient-to-br from-valentine-50 to-valentine-100 min-h-screen flex items-center justify-center p-4 overflow-hidden font-body text-valentine-900">
+
+    <div class="background-hearts"></div>
+
+    <div class="relative w-full max-w-md">
+        <!-- Main Card -->
+        <div id="main-card"
+            class="bg-white/80 backdrop-blur-md rounded-3xl shadow-2xl p-8 border border-white/50 text-center transform transition-all duration-500 hover:shadow-valentine-200/50">
+
+            <!-- Header Text -->
+            <h1 id="title"
+                class="font-script text-6xl text-valentine-600 mb-4 drop-shadow-sm transition-opacity duration-500">
+                Hola ❤️
+            </h1>
+
+            <p id="subtitle"
+                class="text-lg md:text-xl text-valentine-800 font-medium min-h-[3rem] flex items-center justify-center transition-opacity duration-500 whitespace-pre-wrap px-4">
+                Cargando...
+            </p>
+
+            <!-- Question (Hidden Initially) -->
+            <p id="question"
+                class="hidden text-3xl font-bold text-valentine-700 mb-6 transition-opacity duration-1000 opacity-0">
+                ¿Quieres ser mi San Valentín?
+            </p>
+
+            <!-- GIF Container -->
+            <div
+                class="my-6 relative rounded-2xl overflow-hidden shadow-lg border-4 border-white aspect-square w-full max-w-[300px] mx-auto bg-valentine-50">
+                <img id="gif-wait"
+                    src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMGIwZHIxN3Z0ZnF4a2xpbmx5Z3l5eGZ5Z3l5eGZ5Z3l5eSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/26BRv0ThflsHCqDrG/giphy.gif"
+                    alt="Cute Bear" class="w-full h-full object-cover">
+            </div>
+
+            <!-- Buttons -->
+            <div id="btn-container" class="mt-8 space-y-4">
+                <button id="next-btn"
+                    class="w-full bg-valentine-500 hover:bg-valentine-600 text-white font-bold py-3 px-8 rounded-full shadow-lg transform transition-all hover:scale-105 active:scale-95 text-lg">
+                    Continuar
+                </button>
+
+                <div id="choice-btns" class="hidden flex-col gap-4 relative h-32 justify-center items-center">
+                    <button id="yes-btn"
+                        class="bg-valentine-500 hover:bg-valentine-600 text-white font-bold py-3 px-12 rounded-full shadow-lg shadow-valentine-500/30 transform transition-all hover:scale-110 active:scale-95 text-xl animate-pulse-slow z-10">
+                        ¡Sí, claro que sí!
+                    </button>
+
+                    <button id="no-btn"
+                        class="bg-white text-valentine-700 hover:bg-valentine-50 font-semibold py-2 px-8 rounded-full shadow-md border border-valentine-200 transition-none absolute bottom-0">
+                        No
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Import Config first -->
+    <script src="config.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
